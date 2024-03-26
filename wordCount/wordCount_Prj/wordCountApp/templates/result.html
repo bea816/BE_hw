@@ -1,0 +1,19 @@
+<h1>당신이 입력한 텍스트는 {{ total }} 단어로 구성되어 있습니다.</h1>
+
+<h1>입력한 텍스트:</h1>
+{{ alltext }}
+
+<h1>단어 카운트:</h1>
+{% for word, frequency in dictionary %} {{ word }} : {{ frequency }}
+<br />
+{% endfor %}
+
+<h1>글자 수 세기</h1>
+{{ word_num }}자
+
+<h1>띄어쓰기 제외 글자 수 세기</h1>
+{{ word_num_except_space }}자
+
+<a href="{% url 'wordCount' %}">다시하기</a>
+
+<!-- 안녕 반가워 나는 이규민이야 너의 이름은 뭐니 -->
