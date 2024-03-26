@@ -21,7 +21,7 @@ def result(request):
     word_num = len(entered_text)
     word_num_except_space = word_num - entered_text.count(' ')
 
-    return render(request, "result.html", {'alltext': entered_text, 'dictionary': word_dictionary.items(), 'total': len(word_list), 'word_num': word_num, 'word_num_except_space': word_num_except_space})
+    return render(request, "result.html", {'alltext': entered_text, 'dictionary': word_dictionary.items(),'total': len(word_list), 'word_num': word_num, 'word_num_except_space': word_num_except_space})
 
 def hello(request):
     name = request.GET['getName']
