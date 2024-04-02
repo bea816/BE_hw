@@ -1,0 +1,9 @@
+{% if matchings %}
+<h2>"{{ entered_text }}" - 검색 결과 페이지입니다.</h2>
+
+{% for matching in matchings %}
+<h2>이름 : {{ matching.name }}</h2>
+전화번호 {{ matching.phone_num }} {% endfor %} {% else %}
+<h1>검색 결과 페이지입니다.</h1>
+<p>전화 번호가 없습니다.</p>
+{% endif %}
