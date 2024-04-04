@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instagram</title>
+  </head>
+  <body>
+    <h1>덕멋 인스타그램</h1>
+
+    <form action="{% url 'result' %}">
+        <input name="data" size="20" value=""></input>
+        <input type="submit" value="확인" >
+      </form>
+      <br />
+    {% for post in posts %}
+    <h2>{{ post.title }}</h2>
+    {{ post.content }}
+    <br />
+    조회수 : {{ post.views }}
+    <br />
+    작성일 : {{ post.created_at }} 
+    <!-- 만약 초까지 보이도록 하고 싶다면 {{ post.created_at|date:"Y년 m월 d일 f:s a" }} -->
+    <hr />
+    {% endfor %}
+  </body>
+</html>
+

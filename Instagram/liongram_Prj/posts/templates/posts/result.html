@@ -1,0 +1,8 @@
+<h1>"{{ entered_text }}" - 검색 결과</h1>
+{% for post in posts %}
+
+<h2>{{ post.title }}</h2>
+<p>{{ post.content }}</p>
+
+{% empty %} 검색된 글이 없습니다. {% endfor %}
+<hr />
