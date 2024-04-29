@@ -6,14 +6,12 @@
     <title>Document</title>
   </head>
   <body>
-    <a href="{% url 'create' %}">글 작성하기</a>
-    <hr />
-
-    {% for post in posts %}
-    <h2><a href="{% url 'detail' post.id %}">{{ post.title }}</a></h2>
-    <p>{{ post.content }}</p>
+    <h2>제목 - {{ post.title }}</h2>
+    <p>내용 - {{ post.content }}</p>
     <p>작성일 - {{ post.created_at }}</p>
-
-    {% empty %} 작성된 글이 없습니다. {% endfor %}
+    <hr />
+    <br />
+    <a href="{% url 'update' post.id %}">수정하기</a><br />
+    <a href="{% url 'delete' post.id %}">삭제하기</a>
   </body>
 </html>
