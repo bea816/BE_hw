@@ -12,7 +12,11 @@
       </form>
       <br />
     {% for post in posts %}
-    <h2>이름 : {{ post.name }}</h2>
-    전화번호 {{ post.phone_num }} {% endfor %}
+    ▶<a href="{% url 'contacts:detail' post.id %}">{{ post.name }} - {{ post.phone_num }}</a>
+    <a href="{% url 'contacts:update' post.id %}">수정</a> <a href="{% url 'contacts:delete' post.id %}">삭제</a>
+    <br />
+    {% empty %} 저장된 연락처가 없습니다. {% endfor %}
+    <br /><br />
+    <a href="{% url 'contacts:create' %}">새 번호 추가</a><br />
   </body>
 </html>

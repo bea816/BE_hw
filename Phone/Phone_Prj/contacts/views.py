@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Phone
 from django.views.generic import ListView
 
@@ -20,7 +20,42 @@ def result(request):
 
    return render(request, "contacts/result.html", {'matchings': matchings, 'entered_text': entered_text})
 
+def create(request):
+    if request.method == "POST":
+        """
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        
+        post = Post.objects.create(
+            title = title,
+            content = content,
+        )
+        """
+        return redirect('list')
+    return render(request, 'contacts/create.html')
 
+def detail(request, id):
+    post = get_object_or_404(Phone, id = id)
+
+    return render(request, 'contacts/detail.html', {'post' : post})
+
+def update(request, id):
+    post = get_object_or_404(Phone, id = id)
+    if request.method == "POST":
+        """
+        post.title = request.POST.get('title')
+        post.content = request.POST.get('content')
+        post.save()
+
+        
+        """
+        return redirect('detail', id)
+    return render(request, 'contacts/update.html', {'post' : post})
+
+def delete(request, id):
+    post = get_object_or_404(Phone, id = id)
+    post.delete()
+    return redirect('list')
 
 """
 FBV 방식

@@ -28,7 +28,7 @@ def create(request):
 def detail(request, id):
     post = get_object_or_404(Post, id = id)
     
-    views = Post.objects.get(pk=id)  # 예시로 1번째 게시물을 가져온다고 가정
+    views = Post.objects.get(pk=id)
     views.increase_views()
 
     return render(request, 'posts/detail.html', {'post' : post, 'views' : views})
