@@ -7,7 +7,6 @@ class IndexView(ListView):
     template_name = "contacts/list.html"
     context_object_name = 'posts'
 
-
 def result(request):
    entered_text = request.GET['data']
    posts = Phone.objects.all()
@@ -22,16 +21,16 @@ def result(request):
 
 def create(request):
     if request.method == "POST":
-        """
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        
-        post = Post.objects.create(
-            title = title,
-            content = content,
+        name = request.POST.get('name')
+        phone_num = request.POST.get('phone_num')
+        email = request.POST.get('email')
+
+        post = Phone.objects.create(
+            name = name,
+            phone_num = phone_num,
+            email = email,
         )
-        """
-        return redirect('list')
+        return redirect('contacts:list')
     return render(request, 'contacts/create.html')
 
 def detail(request, id):
@@ -49,13 +48,15 @@ def update(request, id):
 
         
         """
-        return redirect('detail', id)
+        return redirect('contacts:detail', id)
     return render(request, 'contacts/update.html', {'post' : post})
 
 def delete(request, id):
     post = get_object_or_404(Phone, id = id)
-    post.delete()
-    return redirect('list')
+    if request.method == "POST":
+        post.delete()
+        return redirect('contacts:list')
+    return render(request, 'contacts/delete.html', {'post' : post})
 
 """
 FBV 방식

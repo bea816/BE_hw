@@ -6,6 +6,11 @@
     <title>Document</title>
   </head>
   <body>
-    delete
+    <h2>연락처 삭제</h2>
+    <form method="POST" action="{% url 'contacts:delete' post.id %}">
+      {% csrf_token %}
+      연락처 "{{ post.name }}"을(를) 삭제합니다.<br>
+    <input type="submit" value="삭제" /><br><br>
+    <a href="{% url 'contacts:list' %}">취소</a>
   </body>
 </html>
