@@ -41,14 +41,11 @@ def detail(request, id):
 def update(request, id):
     post = get_object_or_404(Phone, id = id)
     if request.method == "POST":
-        """
-        post.title = request.POST.get('title')
-        post.content = request.POST.get('content')
+        post.name = request.POST.get('name')
+        post.phone_num = request.POST.get('phone_num')
+        post.email = request.POST.get('email')
         post.save()
-
-        
-        """
-        return redirect('contacts:detail', id)
+        return redirect('contacts:list')
     return render(request, 'contacts/update.html', {'post' : post})
 
 def delete(request, id):

@@ -6,6 +6,24 @@
     <title>Document</title>
   </head>
   <body>
-    update
+    <h2>연락처 수정</h2>
+    <form method="POST" action="{% url 'contacts:update' post.id %}">
+      {% csrf_token %} 이름:<br /><input
+        type="text"
+        value="{{ post.name }}"
+        name="name"
+      /><br />
+      번호:<br /><input
+        type="text"
+        value="{{ post.phone_num }}"
+        name="phone_num"
+      /><br />
+      이메일:<br /><input
+        type="text"
+        value="{{ post.email }}"
+        name="email"
+      /><br /><br />
+      <input type="submit" value="수정" />
+    </form>
   </body>
 </html>

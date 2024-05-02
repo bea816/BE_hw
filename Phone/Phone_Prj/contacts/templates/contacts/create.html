@@ -8,9 +8,9 @@
   <body>
     <h2>연락처 생성</h2>
     <form method="POST" action="{% url 'contacts:create' %}">
-      {% csrf_token %} 이름:<br /><input type="text" name="title" /><br />
-      번호:<br /><input type="text" name="title" /><br />
-      이메일:<br /><input type="text" name="title" /><br /><br />
+      {% csrf_token %} 이름:<br /><input type="text" name="name" /><br />
+      번호:<br /><input type="text" name="phone_num" /><br />
+      이메일:<br /><input type="text" name="email" /><br /><br />
       <input type="submit" value="등록" />
     </form>
   </body>
