@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.decorators import login_required
-#create 위에 골뱅이 추가해야 함
+
 def list(request):
    posts = Post.objects.all().order_by('-id')
    return  render(request, 'post/list.html', {'posts' : posts})
@@ -23,7 +23,7 @@ def create(request):
             title = title,
             content = content,
             anonymity = anonymity,
-            author = author,
+            author = request.user,
         )
         return redirect('post:list')
     return render(request, 'post/list.html')
@@ -48,3 +48,22 @@ def delete(request, id):
     post = get_object_or_404(Post, id = id)
     post.delete()
     return redirect('post:list')
+
+def create_comment(request, post_id):
+    post = get_object_or_404(Post, id = post_id)
+    if request.method == "POST":
+
+        anonymity = request.POST.get('anonymity')
+
+        if anonymity == "on": 
+         anonymity = True
+        else:
+         anonymity = False
+
+        Comment.objects.create(
+            content = request.POST.get('content'),
+            author = request.user,
+            anonymity = anonymity,
+            post = post,
+        )
+        return redirect('post:detail', post_id)

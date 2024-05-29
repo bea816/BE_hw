@@ -29,3 +29,7 @@ def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
     return redirect('post:list')
+
+def myblog(request):
+    posts = request.user.posts.all().order_by('-id')
+    return render(request, 'accounts/myblog.html', {'posts' : posts})

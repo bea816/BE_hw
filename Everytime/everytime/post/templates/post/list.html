@@ -8,12 +8,21 @@
   <body>
     <!-- 로그인 상태 -->
     {% if request.user.is_authenticated %}
-    <a href="{% url 'accounts:logout' %}">로그아웃</a><br /><br />
+    카테고리<br>
+    nickname: {{ user }}
+    <hr>
+    <a href="#">마이페이지</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a><br>
     <!-- 로그아웃 상태 -->
     {% else %}
     <a href="{% url 'accounts:signup' %}">회원가입</a>
     <a href="{% url 'accounts:login' %}">로그인</a>
     {% endif %}
+
+    <hr>
+    <a href="{% url 'accounts:my-blog' %}">내가 작성한 글</a>
+    <a href="#">내가 스크랩한 글</a>
+    <hr>
 
     <!-- 글 작성 (여기 url은 실제 html 페이지 존재와 상관X)-->
     <form method="POST" action="{% url 'post:create' %}">
