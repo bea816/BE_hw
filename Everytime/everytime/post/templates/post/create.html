@@ -6,14 +6,45 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="{% url 'post:list' %}">메인페이지로 돌아가기</a>
+    <hr>
+
+    {% for category in categories %}
+    <a href="{% url 'post:create' category.slug %}">{{ category.title }}</a>
+    {% endfor %}
+    <br>
+
+    <h1>{{ category.title }}</h1>
+
+    {% if request.user.is_authenticated %}
+    <a href="#">마이페이지</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a><br>
+    <!-- 로그아웃 상태 -->
+    {% else %}
+    <a href="{% url 'accounts:signup' %}">회원가입</a>
+    <a href="{% url 'accounts:login' %}">로그인</a>
+    {% endif %}
+    <br>
+
+    <!-- 글 작성 -->
     <form action="{% url 'post:create' category.slug %}" method="post">
-        <h2>{{ categories.title }}</h2>
         {% csrf_token %}
         <input type="text" placeholder="제목 입력" name="title">
         <br>
         <textarea name="content" placeholder="본문 입력"></textarea>
-        <input type="checkbox" name="anonymity" value="annoymitiy_ture">익명
+        <input type="checkbox" name="anonymity">익명
         <input type="submit" value="작성 완료">
     </form>
+
+    <hr>
+    <!-- 글 리스트 -->
+    {% for post in posts %}
+    <h2><a href="{% url 'post:detail' post.id %}"> {{ post.title }} </a></h2>
+    <p>{{ post.content }}</p>
+    <p>{% load humanize %} {{ post.created_at|naturaltime }}</p>
+
+    {% empty %}
+    <h1>글이 없습니다.</h1>
+    {% endfor %}
 </body>
 </html>

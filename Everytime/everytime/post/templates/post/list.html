@@ -28,29 +28,19 @@
     <a href="#">내가 스크랩한 글</a>
     <hr>
 
-    <!-- 글 작성 -->
-    <form method="POST" action="#">
-      {% csrf_token %} <input type="text" name="title" /><br />
-      <textarea name="content"></textarea>
-      <input type="checkbox" name="anonymity" />익명<br />
-      <input type="submit" value="작성 완료" />
-    </form>
-
-    <hr>
-    {% for category in categories %}
+    {% for category, posts in category_posts.items %}
     <h2><a href="{% url 'post:create' category.slug %}">{{ category.title }}</a></h2>
+    <!-- 카테고리에 해당하는 최신 글 리스트 -->
+    {% for post in posts %}
+        <a href="{% url 'post:detail' post.id %}"> {{ post.title }} </a><br>
+    {% empty %}
+    글이 없습니다.
     {% endfor %}
+    {% endfor %}
+
     <br>
 
     <hr />
-    <!-- 글 리스트 -->
-    {% for post in posts %}
-    <h2><a href="{% url 'post:detail' post.id %}"> {{ post.title }} </a></h2>
-    <p>{{ post.content }}</p>
-    <p>{% load humanize %} {{ post.created_at|naturaltime }}</p>
-
-    {% empty %}
-    <h1>글이 없습니다.</h1>
-    {% endfor %}
+    
   </body>
 </html>

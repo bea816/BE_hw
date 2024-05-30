@@ -4,25 +4,26 @@ from django.contrib.auth.decorators import login_required
 
 def list(request):
     categories = Category.objects.all()
-    posts = Post.objects.all().order_by('-id')
     
-    return  render(request, 'post/list.html', {'posts' : posts, 'categories' : categories})
+    category_posts = {}
+    for category in categories:
+        posts = category.posts.order_by('-created_at')[:4]
+        category_posts[category] = posts
+       
+    return  render(request, 'post/list.html', {'category_posts': category_posts, 'categories' : categories})
 
 @login_required
 def create(request, slug): 
     categories = Category.objects.all()
+    # url에서 전돨된 slug를 이용해 특정 카테고리 가져옴
+    category = get_object_or_404(Category, slug=slug)
+    posts = category.posts.all().order_by('-id')
 
-    if request.method == "POST":
-        new_post = POST()
-        new_post.category = Category.objects.get(slug=slug)
-        
+    if request.method == "POST":     
         title = request.POST.get('title')
         content = request.POST.get('content')
         anonymity = request.POST.get('anonymity')
         author = request.user
-         
-        category_ids = request.POST.getlist('category')
-        category_list = [get_object_or_404(Category, id = category_id) for category_id in category_ids]
 
         if anonymity == "on": #input결과가 on으로 오나 봄
          anonymity = True
@@ -36,11 +37,10 @@ def create(request, slug):
             author = request.user,
         )
 
-        for category in categories:
-            post.category.add(category)
+        post.category.add(category)
 
         return redirect('post:list')
-    return render(request, 'post/create.html', {'categories' : categories})
+    return render(request, 'post/create.html', {'categories' : categories, 'category' : category, 'posts' : posts})
 
 def detail(request, id):
     post = get_object_or_404(Post, id = id)
