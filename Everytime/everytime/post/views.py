@@ -3,16 +3,26 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 
 def list(request):
-   posts = Post.objects.all().order_by('-id')
-   return  render(request, 'post/list.html', {'posts' : posts})
+    categories = Category.objects.all()
+    posts = Post.objects.all().order_by('-id')
+    
+    return  render(request, 'post/list.html', {'posts' : posts, 'categories' : categories})
 
 @login_required
-def create(request):
+def create(request, slug): 
+    categories = Category.objects.all()
+
     if request.method == "POST":
+        new_post = POST()
+        new_post.category = Category.objects.get(slug=slug)
+        
         title = request.POST.get('title')
         content = request.POST.get('content')
         anonymity = request.POST.get('anonymity')
         author = request.user
+         
+        category_ids = request.POST.getlist('category')
+        category_list = [get_object_or_404(Category, id = category_id) for category_id in category_ids]
 
         if anonymity == "on": #input결과가 on으로 오나 봄
          anonymity = True
@@ -25,8 +35,12 @@ def create(request):
             anonymity = anonymity,
             author = request.user,
         )
+
+        for category in categories:
+            post.category.add(category)
+
         return redirect('post:list')
-    return render(request, 'post/list.html')
+    return render(request, 'post/create.html', {'categories' : categories})
 
 def detail(request, id):
     post = get_object_or_404(Post, id = id)
