@@ -25,7 +25,7 @@
 
     <hr>
     <a href="{% url 'accounts:my-blog' %}">내가 작성한 글</a>
-    <a href="#">내가 스크랩한 글</a>
+    <a href="{% url 'accounts:my-scrap' %}">내가 스크랩한 글</a>
     <hr>
 
     {% for category, posts in category_posts.items %}
@@ -37,10 +37,6 @@
     글이 없습니다.
     {% endfor %}
     {% endfor %}
-
     <br>
-
-    <hr />
-    
   </body>
 </html>

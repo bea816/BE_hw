@@ -42,7 +42,9 @@
     <h2><a href="{% url 'post:detail' post.id %}"> {{ post.title }} </a></h2>
     <p>{{ post.content }}</p>
     <p>{% load humanize %} {{ post.created_at|naturaltime }}</p>
-
+    댓글 {{ post.comments.count }}개
+    공감 {{ post.like.count }}개<br>
+    <hr>
     {% empty %}
     <h1>글이 없습니다.</h1>
     {% endfor %}

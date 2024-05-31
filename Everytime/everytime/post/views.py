@@ -44,7 +44,6 @@ def create(request, slug):
 
 def detail(request, id):
     post = get_object_or_404(Post, id = id)
-
     return render(request, 'post/detail.html', {'post' : post})
 
 @login_required
@@ -63,6 +62,7 @@ def delete(request, id):
     post.delete()
     return redirect('post:list')
 
+@login_required
 def create_comment(request, post_id):
     post = get_object_or_404(Post, id = post_id)
     if request.method == "POST":
@@ -81,3 +81,34 @@ def create_comment(request, post_id):
             post = post,
         )
         return redirect('post:detail', post_id)
+
+@login_required
+def delete_comment(request, post_id, comment_id):
+    comment = get_object_or_404(Comment, id = comment_id)
+    comment.delete()
+    return redirect('post:detail', post_id)
+
+@login_required
+def add_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.like.add(request.user)
+    return redirect('post:detail', post_id)
+
+@login_required
+def remove_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.like.remove(request.user)
+    return redirect('post:detail', post_id)
+
+@login_required
+def add_scrap(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.scrap.add(request.user)
+    return redirect('post:detail', post_id)
+
+@login_required
+def remove_scrap(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.scrap.remove(request.user)
+    return redirect('post:detail', post_id)
+

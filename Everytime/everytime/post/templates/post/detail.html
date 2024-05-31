@@ -6,6 +6,8 @@
     <title>Document</title>
   </head>
   <body>
+    <a href="{% url 'post:list' %}">메인페이지로 돌아가기</a>
+    <hr>
     <h2>{{ post.title }}</h2>
     <p>{{ post.content }}</p>
     <p>{{ post.created_at }}</p>
@@ -14,12 +16,45 @@
     <p>익명</p>
     {% else %}
     <p>{{ post.author.nickname }}</p>
-    {% endif %} {% if request.user == post.author %}
+    {% endif %}
+    
+    {% if request.user == post.author %}
     <a href="{% url 'post:update' post.id %}">수정하기</a>
     <a href="{% url 'post:delete' post.id %}">삭제하기</a>
     {% endif %}
+
+    <br><br>
+    공감 {{ post.like.count }}개<br>
+    스크랩 {{ post.scrap.count }}개
     <br />
+    
+    <!-- 공감 버튼 -->
+    {% if request.user in post.like.all %}
+    <form action="{% url 'post:remove-like' post.id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="좋아요 취소">
+    </form>
+    {% else %}
+    <form action="{% url 'post:add-like' post.id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="좋아요">
+    </form>
+    {% endif %}
+
+    <!-- 스크랩 버튼 -->
+    {% if request.user in post.scrap.all %}
+    <form action="{% url 'post:remove-scrap' post.id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="스크랩 취소">
+    </form>
+    {% else %}
+    <form action="{% url 'post:add-scrap' post.id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="스크랩">
+    </form>
+    {% endif %}
     <hr />
+
     <!-- 댓글 -->
     <h3>댓글</h3>
     <p>댓글 수 : {{ post.comments.count }}</p>
@@ -31,6 +66,10 @@
     {{ comment.content }}
     <br />
     작성일 - {{ comment.created_at }}
+    <br>
+    {% if request.user == comment.author %}
+    <a href="{% url 'post:delete-comment' post.id comment.id %}">삭제하기</a>
+    {% endif %}
     <br /><br />
     {% empty %} 댓글이 없습니다 {% endfor %}
     <br />
@@ -43,7 +82,5 @@
       /><input type="checkbox" name="anonymity" />익명<br />
     </form>
     <br /><br />
-
-    <a href="{% url 'post:list' %}">홈</a>
   </body>
 </html>

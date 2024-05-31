@@ -8,4 +8,5 @@ urlpatterns = [
     path('login/', login_view, name = "login"),
     path('logout/', logout_view, name = "logout"),
     path('my-blog/', myblog, name = "my-blog"),
+    path('my-scrap/', myscrap, name="my-scrap"),
 ]

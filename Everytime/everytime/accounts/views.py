@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
+from post.models import Post
 
 def signup_view(request):
     if request.method == "GET":
@@ -33,3 +34,7 @@ def logout_view(request):
 def myblog(request):
     posts = request.user.posts.all().order_by('-id')
     return render(request, 'accounts/myblog.html', {'posts' : posts})
+
+def myscrap(request):
+    scraped_posts = Post.objects.filter(scrap=request.user).order_by('-id')
+    return render(request, 'accounts/myscrap.html', {'posts' : scraped_posts})
