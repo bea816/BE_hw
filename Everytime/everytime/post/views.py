@@ -24,6 +24,8 @@ def create(request, slug):
         content = request.POST.get('content')
         anonymity = request.POST.get('anonymity')
         author = request.user
+        video = request.FILES.get('video')
+        image = request.FILES.get('image')
 
         if anonymity == "on": #input결과가 on으로 오나 봄
          anonymity = True
@@ -35,6 +37,8 @@ def create(request, slug):
             content = content,
             anonymity = anonymity,
             author = request.user,
+            image = image,
+            video = video,
         )
 
         post.category.add(category)
@@ -52,6 +56,16 @@ def update(request, id):
     if request.method == "POST":
         post.title = request.POST.get('title')
         post.content = request.POST.get('content')
+        video = request.FILES.get('video')
+        image = request.FILES.get('image')
+
+        if video:
+            post.video.delete()
+            post.video = video
+        if image:
+            post.image.delete()
+            post.image = image
+
         post.save()
         return redirect('post:detail', id)
     return render(request, 'post/update.html', {'post' : post})

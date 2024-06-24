@@ -11,6 +11,16 @@
     <p>작성일 - {{ post.created_at }}</p>
     <p>작성자 - {{ post.author.nickname }}</p>
 
+    <!-- 영상 & 이미지 -->
+    {% if post.image %}
+    <img width="320" height="240" src="{{ post.image.url }}">
+    {% endif %}
+    {% if post.video %}
+    <video width="320" height="240" controls>
+      <source src="{{ post.video.url }}" type="video/mp4">
+    </video>
+    {% endif %}
+
     <p>
       좋아요 - {{ post.like.count }} {% if request.user in post.like.all %}
       <a href="{% url 'blog:remove-like' post.id %}">좋아요 취소</a>
@@ -30,6 +40,7 @@
     <p>댓글 수 : {{ post.comments.count }}</p>
     {% for comment in post.comments.all %}
     <p>작성자 - {{ comment.author.nickname }}</p>
+
     <b>{{ comment.content }}</b><br />
     작성일 - {{ comment.created_at }}<br /><br />
     {% empty %} 댓글이 없습니다 {% endfor %}
